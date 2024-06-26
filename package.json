@@ -1,0 +1,15 @@
+{
+  "name": "socketio",
+  "version": "1.0.0",
+  "description": "Udemy course: SocketIO v4, with websockets - the 2023 details.",
+  "main": "justWsServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.17.1"
+  }
+}
