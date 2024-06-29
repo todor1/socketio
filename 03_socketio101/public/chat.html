@@ -50,10 +50,15 @@
         console.log(dataFromServer);
     });
 
+    socket.on('newMessageToClients', (newMessage) => {
+        document.querySelector('#messages').innerHTML += `<li>${newMessage.text}</li>`;
+    });
+
     document.querySelector('#message-form').addEventListener('submit', (event) => {
         event.preventDefault(); //otherwise the brouser will try & refresh
         const newMessage = document.querySelector('#user-message').value
-        console.log(newMessage);        
+        // console.log(newMessage);        
+        socket.emit('newMessageToServer', {text: newMessage});
     });
     
 </script>
