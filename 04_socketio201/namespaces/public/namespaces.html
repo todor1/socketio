@@ -47,6 +47,7 @@
 
     socket.on('connect', () => {
         // do connect type stuff
+        console.log("Successfully joined the main namespace.");
     });
 
     socket.on('messageFromServer', (dataFromServer) => {
@@ -56,6 +57,10 @@
     socket.on('newMessageToClients', (newMessage) => {
         document.querySelector('#messages').innerHTML += `<li>${newMessage.text}</li>`;
     });
+
+    adminSocket.on("connect", () => {
+        console.log("Successfully joined the admin namespace.");
+    })
 
     document.querySelector('#message-form').addEventListener('submit', (event) => {
         event.preventDefault(); //otherwise the brouser will try & refresh

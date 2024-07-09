@@ -16,7 +16,9 @@ const io = socketio(expressServer, {
 
 // io = actual server object in the docs (built upon Server constructor)
 // io.on("connection", (socket) => {
+// if no specific ns is provided, the socket will connect to the main ns
 io.of("/").on("connection", (socket) => {
+  io.of("/admin").emit("userJoinedMainNs", {});
   console.log(socket.id, "has connected.");
   socket.on("newMessageToServer", (dataFromClient) => {
     console.log("Data:", dataFromClient);
@@ -25,6 +27,8 @@ io.of("/").on("connection", (socket) => {
   });
 });
 
+// handles only sockets connected to the particular namespace: /admin
 io.of("/admin").on("connection", (socket) => {
   console.log(socket.id, "has connected to /admin.");
+  io.of("/admin").emit("newMessageToClientsFromAdmin", {});
 });
