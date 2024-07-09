@@ -40,7 +40,10 @@
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
+    // using multiplexing with tcp connection: go to the same server on 2 different namespaces with own event handlers
+    // all namespaces are managed by the server, the client can only ask to access a specific ns, create a ns variable and use it where appropriately
     const socket = io("http://localhost:8001");
+    const adminSocket = io("http://localhost:8001/admin");
 
     socket.on('connect', () => {
         // do connect type stuff

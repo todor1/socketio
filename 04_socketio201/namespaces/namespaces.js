@@ -15,10 +15,16 @@ const io = socketio(expressServer, {
 });
 
 // io = actual server object in the docs (built upon Server constructor)
-io.on("connection", (socket) => {
+// io.on("connection", (socket) => {
+io.of("/").on("connection", (socket) => {
   console.log(socket.id, "has connected.");
   socket.on("newMessageToServer", (dataFromClient) => {
     console.log("Data:", dataFromClient);
-    io.emit("newMessageToClients", { text: dataFromClient.text });
+    // io.emit("newMessageToClients", { text: dataFromClient.text });
+    io.of("/").emit("newMessageToClients", { text: dataFromClient.text });
   });
+});
+
+io.of("/admin").on("connection", (socket) => {
+  console.log(socket.id, "has connected to /admin.");
 });
