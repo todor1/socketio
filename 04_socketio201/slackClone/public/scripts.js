@@ -12,11 +12,12 @@ socket.on("connect", () => {
 
 // listen for nsLIst event from the server which gives us the namespaces
 socket.on("nsList", (nsData) => {
+  const lastNs = localStorage.getItem("lastNs");
   console.log(nsData);
+  const nameSpacesDiv = document.querySelector(".namespaces");
+  nameSpacesDiv.innerHTML = "";
   nsData.forEach((ns) => {
     // update the HTML with each namespace
-    const nameSpacesDiv = document.querySelector(".namespaces");
-    // nameSpacesDiv.innerHTML += `<div class="namespace" ns="${ns.name}"><img src="${ns.image}" alt="${ns.name}"></div>`;
     nameSpacesDiv.innerHTML += `<div class="namespace" ns="${ns.endpoint}"><img src="${ns.image}" alt="${ns.name}"></div>`;
   });
 
@@ -24,20 +25,21 @@ socket.on("nsList", (nsData) => {
     (element) => {
       console.log(element);
       element.addEventListener("click", (e) => {
-        const nsEndpoint = element.getAttribute("ns");
-        console.log(nsEndpoint);
-
-        const clickedNs = nsData.find((row) => row.endpoint === nsEndpoint);
-        const rooms = clickedNs.rooms;
-        // get the room list div
-        let roomList = document.querySelector(".room-list");
-        // clear it out
-        roomList.innerHTML = "";
-        // loop through each room and add it to the DOM
-        rooms.forEach((room) => {
-          roomList.innerHTML += ` <li><span class="glyphicon glyphicon-lock"></span>${room.roomTitle}</li>`;
-        });
+        joinNs(element, nsData);
       });
     }
+  );
+  // if lastNs is set, grab that element instead of 0
+  // joinNs(document.getElementsByClassName("namespace")[0], nsData);
+  //default: initially try get from localstorage: lastNs
+  const getArrayElementIndex = nsData.findIndex((ns, index, array) => {
+    return ns.endpoint === lastNs;
+  });
+
+  joinNs(
+    document.getElementsByClassName("namespace")[
+      getArrayElementIndex > -1 ? getArrayElementIndex : 0
+    ],
+    nsData
   );
 });
