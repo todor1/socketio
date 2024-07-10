@@ -50,6 +50,10 @@
         console.log("Successfully joined the main namespace.");
     });
 
+    socket.on("welcomeToChatRoom", data => {
+        console.log('Welcome to the main chat room!')
+    })
+
     socket.on('messageFromServer', (dataFromServer) => {
         console.log(dataFromServer);
     });
@@ -60,6 +64,10 @@
 
     adminSocket.on("connect", () => {
         console.log("Successfully joined the admin namespace.");
+    })
+
+    adminSocket.on("welcomeToChatRoom", data => {
+        console.log('Admin chat room started.')
     })
 
     document.querySelector('#message-form').addEventListener('submit', (event) => {
